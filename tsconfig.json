@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist", // 컴파일 시 어떤 경로에 결과물 위치시킬지
+    "target": "ES5", // 어떤 자바스크립트 코드로 컴파일 할 지
+    "strict": true, // 기본으로 활성화, 타입 체킹 담당
+    "module": "CommonJS", // import문 컴파일 시 해석방법(cjs)
+    "esModuleInterop": true, // commonJS방식으로 내보낸 모듈을 ES 모듈 방식의 import로 호출
+    "removeComments": true, //컴파일시 주석제거
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // 컴파일 과정에서 사용되는 라이브러리를 지정
+    "jsx": "react-jsx", // tsx로 작성된 파일을 어떻게 컴파일 할 지
+    "allowJs": true, // .js파일 .ts파일에서 import가능하게
+    "baseUrl": "./src", // 절대경로 파일 import 할 때
+    "paths": {
+      "@/*": ["/*"],
+      "@components/*": ["components/*"]
+    }
+  },
+  "exclude": ["node_modules"], // 다른 위치의 tsconfig.json 파일의 설정
+  "include": ["**/*.ts", "**/*.tsx"], //  프로젝트에서 컴파일할 파일들을 지정
+}
