@@ -33,7 +33,10 @@ module.exports = {
     },
   },
   resolve: {
-    extentions: [".js", ".jsx", ".ts", ".tsx", ".css"], // import를 할 때 확장자를 생략
+    extentions: [".js", ".jsx", ".ts", ".tsx", ".css", "json"], // import를 할 때 확장자를 생략
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
   },
   module: {
     rules: [
@@ -47,7 +50,12 @@ module.exports = {
         use: [
           production ? MiniCssExtractPlugin.loader : "style-loader",
           "css-loader",
+          "postcss-loader",
         ],
+      },
+      {
+        test: /\.(png|jpe?g|svg|gif|webp)$/,
+        use: "file-loader",
       },
     ],
   },
