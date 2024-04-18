@@ -1,12 +1,32 @@
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin"); // 생성된 html 파일에 필요한 플러그인
+const TerserPlugin = require("terser-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const production = process.env.NODE_ENV === "production"; // 프로덕션 모드 여부 확인
 
 module.exports = {
   mode: production ? "production" : "development",
   devtool: production ? "hidden-source-map" : "eval", // 프로덕션 모드면 hidden-source-map
   entry: "./src/index.tsx", // webpack 최초 진입점(엔트리 포인트) 파일 경로
+  optimization: {
+    minimizer: production
+      ? [
+          new TerserPlugin({
+            terserOptions: {
+              compress: {
+                drop_console: true,
+              },
+            },
+          }),
+          new CssMinimizerPlugin(),
+        ]
+      : [],
+    splitChunks: {
+      chunks: "all",
+    },
+  },
   resolve: {
     extentions: [".js", ".jsx", ".ts", ".tsx"], // import를 할 때 확장자를 생략
   },
@@ -15,17 +35,20 @@ module.exports = {
       {
         test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
-        use: ["ts-loader"], // loader들은 오른쪽에서 왼쪽으로 적용
+        use: production ? "babel-loader" : "ts-loader",
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: [
+          production ? MiniCssExtractPlugin.loader : "style-loader",
+          "css-loader",
+        ],
       },
     ],
   },
   output: {
     path: path.join(__dirname, "/dist"),
-    filename: "bundle.js",
+    filename: production ? "[name].[contenthash].js" : "[name].min.js",
   },
   // webpack-dev-server
   devServer: {
@@ -51,6 +74,9 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
+    }),
+    new MiniCssExtractPlugin({
+      filename: production ? "[name].[contenthash].css" : "[name].min.css",
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
