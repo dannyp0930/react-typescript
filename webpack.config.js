@@ -28,7 +28,7 @@ module.exports = {
     },
   },
   resolve: {
-    extentions: [".js", ".jsx", ".ts", ".tsx"], // import를 할 때 확장자를 생략
+    extentions: [".js", ".jsx", ".ts", ".tsx", ".css"], // import를 할 때 확장자를 생략
   },
   module: {
     rules: [
@@ -47,7 +47,7 @@ module.exports = {
     ],
   },
   output: {
-    path: path.join(__dirname, "/dist"),
+    path: path.resolve(__dirname, "dist"),
     filename: production ? "[name].[contenthash].js" : "[name].min.js",
   },
   // webpack-dev-server
@@ -62,10 +62,9 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [".js", ".ts", ".jsx", ".tsx", ".json"],
+    extensions: [".js", ".ts", ".jsx", ".tsx", ".css", ".json"],
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "@components": path.resolve(__dirname, "./src/components"),
     },
   },
   plugins: [

@@ -11,8 +11,7 @@
     "allowJs": true, // .js파일 .ts파일에서 import가능하게
     "baseUrl": "./src", // 절대경로 파일 import 할 때
     "paths": {
-      "@/*": ["/*"],
-      "@components/*": ["components/*"]
+      "@/*": ["./*"],
     }
   },
   "exclude": ["node_modules"], // 다른 위치의 tsconfig.json 파일의 설정
