@@ -1,10 +1,17 @@
 import "@/styles/app";
-import Root from "@/routes/root";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "@/pages/home";
+import Article from "@/pages/article";
 
 export default function App() {
   return (
     <div className="app">
-      <Root />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/article" element={<Article />} />
+        </Routes>
+      </BrowserRouter>
     </div>
-  )
+  );
 }
