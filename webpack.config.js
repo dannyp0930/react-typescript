@@ -5,7 +5,10 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin"); // 빌드 캐시
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 const production = process.env.NODE_ENV === "production"; // 프로덕션 모드 여부 확인
+const PORT = process.env.PORT || 3000;
+const API_URL = process.env.API_URL || "localhost:8080";
 
 module.exports = {
   mode: production ? "production" : "development",
@@ -62,11 +65,11 @@ module.exports = {
   // webpack-dev-server
   devServer: {
     historyApiFallback: true,
-    port: 3000,
+    port: PORT,
     static: path.resolve(__dirname, "dist"),
     proxy: [
       {
-        "/api": "localhost:8080",
+        "/api": API_URL,
       },
     ],
   },
@@ -93,6 +96,9 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: production ? "[name].[contenthash].css" : "[name].min.css",
+    }),
+    new Dotenv({
+      path: `.env.${process.env.NODE_ENV}`,
     }),
   ],
 };
