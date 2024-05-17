@@ -98,7 +98,7 @@ module.exports = {
       filename: production ? "[name].[contenthash].css" : "[name].min.css",
     }),
     new Dotenv({
-      path: `.env.${process.env.NODE_ENV}`,
+      path: production ? ".env.production" : ".env.local",
     }),
   ],
 };
