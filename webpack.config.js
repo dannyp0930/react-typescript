@@ -69,7 +69,8 @@ module.exports = {
     static: path.resolve(__dirname, "dist"),
     proxy: [
       {
-        "/api": API_URL,
+        context: ["/api"],
+        target: API_URL,
       },
     ],
   },
