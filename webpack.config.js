@@ -5,10 +5,15 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin"); // 빌드 캐시
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const dotenv = require("dotenv");
 const production = process.env.NODE_ENV === "production"; // 프로덕션 모드 여부 확인
+dotenv.config({
+  path: production ? ".env.production" : ".env.local",
+});
 const PORT = process.env.PORT || 3000;
 const API_URL = process.env.API_URL || "localhost:8080";
+const APP_TITLE = process.env.APP_TITLE || "APP TITLE";
 
 module.exports = {
   mode: production ? "production" : "development",
@@ -82,10 +87,14 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-        React: "react",
+      React: "react",
+    }),
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env),
     }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
+      title: APP_TITLE,
       minify: production
         ? {
             collapseWhitespace: true,
@@ -98,8 +107,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: production ? "[name].[contenthash].css" : "[name].min.css",
     }),
-    new Dotenv({
-      path: production ? ".env.production" : ".env.local",
-    }),
+    new ForkTsCheckerWebpackPlugin(),
   ],
 };
