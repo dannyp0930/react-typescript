@@ -158,6 +158,7 @@ dist
 .tern-port
 
 # Stores VSCode versions used for testing VSCode extensions
+.vscode
 .vscode-test
 
 # yarn v2
@@ -220,5 +221,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Certificate
+/cert
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,visualstudiocode,node

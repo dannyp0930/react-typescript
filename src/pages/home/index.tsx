@@ -1,6 +1,6 @@
+import useStore from '@/store';
+
 export default function Home() {
-  return <article>
-    Hello World!
-    {process.env.NODE_ENV}
-  </article>;
+  const store = useStore();
+  return <article>{store.username}, Hello World!</article>;
 }
